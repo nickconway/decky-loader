@@ -216,7 +216,7 @@ class Utilities:
                 self.logger.debug(f"Finished stream for {url}")
         return res
 
-    async def http_request_legacy(self, method: str, url: str, extra_opts: Any = {}, timeout: int | None = None):
+    async def http_request_legacy(self, method: str, url: str, extra_opts: Any = {}, timeout: int | None = None) -> Any:
         async with ClientSession() as web:
             res = await web.request(method, url, ssl=helpers.get_ssl_context(), timeout=timeout, **extra_opts) # type: ignore
             text = await res.text()
@@ -229,7 +229,7 @@ class Utilities:
     async def ping(self, **kwargs: Any):
         return "pong"
 
-    async def execute_in_tab(self, tab: str, run_async: bool, code: str):
+    async def execute_in_tab(self, tab: str, run_async: bool, code: str)-> Any:
         try:
             result = await inject_to_tab(tab, code, run_async)
             assert result
@@ -322,7 +322,7 @@ class Utilities:
                             order_by: str = "name_desc",
                             filter_for: str | None = None,
                             page: int = 1,
-                            max: int = 1000):
+                            max: int = 1000) -> Any:
         
         if path == None:
             path = get_home_path()
@@ -383,7 +383,7 @@ class Utilities:
                 folders.sort(key=lambda x: x['file'].name.casefold(), reverse = rev)
         
         #Constructing the final file list, folders first
-        all =   [{
+        all: List[Any] =   [{
                     "isdir": x['is_dir'],
                     "name": str(x['file'].name),
                     "realpath": str(x['file']),
@@ -443,7 +443,7 @@ class Utilities:
                             enumerable: true,
                             configurable: true,
                             get: function() {
-                                return (GamepadNavTree?.m_context?.m_controller || FocusNavController)?.m_ActiveContext?.ActiveWindow || window;
+                                return (window?.GamepadNavTree?.m_context?.m_controller || window?.FocusNavController)?.m_ActiveContext?.ActiveWindow || window;
                             }
                         });
                     """ + await res.text() + "\n}"
